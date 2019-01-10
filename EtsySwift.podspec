@@ -10,8 +10,9 @@ Pod::Spec.new do |s|
   s.social_media_url   = "http://twitter.com/ferusinfo"
   s.platform     = :ios, "11.0"
   s.source       = { :git => "https://github.com/ferusinfo/EtsySwift.git", :tag => "#{s.version}" }
+  s.swift_version = "4.2"
 
-  s.source_files  = "Sources/*/*"
+  s.source_files  = "Classes/Etsy/*/*"
   s.dependency 'Alamofire', '~> 4.7.3'
   s.dependency 'RxAlamofire', '~> 4.2.0'
   s.dependency 'RxSwift', '~> 4.2.0'
