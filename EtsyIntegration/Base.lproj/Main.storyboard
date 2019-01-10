@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="EtsyIntegration" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="bottom" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="mfp-tX-6hI">
+                                <rect key="frame" x="129" y="253" width="117" height="161"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="STATUS LABEL" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FeT-0Q-GVO">
+                                        <rect key="frame" x="0.0" y="0.0" width="117" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="liP-QO-AZK">
+                                        <rect key="frame" x="0.0" y="40.5" width="117" height="30"/>
+                                        <state key="normal" title="LOG IN"/>
+                                        <connections>
+                                            <action selector="onLoginTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="8P3-G2-wWA"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FhI-Ju-Sb5">
+                                        <rect key="frame" x="0.0" y="90.5" width="117" height="30"/>
+                                        <state key="normal" title="Request Shop"/>
+                                        <connections>
+                                            <action selector="requestShopBtnTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Yx1-Pr-ODE"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="---------" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i9A-8X-aDr">
+                                        <rect key="frame" x="0.0" y="140.5" width="117" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="i9A-8X-aDr" firstAttribute="leading" secondItem="mfp-tX-6hI" secondAttribute="leading" id="5F4-tV-Udf"/>
+                                    <constraint firstItem="FhI-Ju-Sb5" firstAttribute="leading" secondItem="mfp-tX-6hI" secondAttribute="leading" id="UMp-55-rRV"/>
+                                    <constraint firstAttribute="trailing" secondItem="liP-QO-AZK" secondAttribute="trailing" id="g7Z-BF-1by"/>
+                                    <constraint firstAttribute="trailing" secondItem="FhI-Ju-Sb5" secondAttribute="trailing" id="p5q-c6-tib"/>
+                                    <constraint firstItem="liP-QO-AZK" firstAttribute="leading" secondItem="mfp-tX-6hI" secondAttribute="leading" id="t12-ex-kqh"/>
+                                    <constraint firstAttribute="trailing" secondItem="i9A-8X-aDr" secondAttribute="trailing" id="vfO-nB-3SO"/>
+                                </constraints>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="mfp-tX-6hI" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="tk0-Xk-Vtw"/>
+                            <constraint firstItem="mfp-tX-6hI" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="yrQ-f6-xTP"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                    </view>
+                    <connections>
+                        <outlet property="loginBtn" destination="liP-QO-AZK" id="lb7-z3-hVi"/>
+                        <outlet property="requestShopBtn" destination="FhI-Ju-Sb5" id="OIl-0E-Out"/>
+                        <outlet property="shopNameLabel" destination="i9A-8X-aDr" id="MLw-22-XG9"/>
+                        <outlet property="statusLabel" destination="FeT-0Q-GVO" id="VcB-ek-gpX"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+        </scene>
+    </scenes>
+</document>

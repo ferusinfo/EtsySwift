@@ -1,0 +1,6 @@
+framework module Pods_EtsyIntegration {
+  umbrella header "Pods-EtsyIntegration-umbrella.h"
+
+  export *
+  module * { export * }
+}
