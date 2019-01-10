@@ -33,7 +33,12 @@ public class EtsySwift {
     private var consumerSecret: String!
     public var oAuthTokenSecret: String?
     public var oAuthToken: String?
+    private var loginSubject = PublishSubject<Bool>()
     private var isLoggedInSubject = BehaviorSubject<Bool>(value: false)
+    
+    public var isLoggedInObservable: Observable<Bool> {
+        return isLoggedInSubject.asObservable()
+    }
     
     public init(consumerKey: String, consumerSecret: String) {
         set(consumerKey: consumerKey, consumerSecret: consumerSecret)
@@ -50,10 +55,28 @@ public class EtsySwift {
     }
     
     //MARK: - Login
-    public func login(_ scope: [String], callback: String) -> Observable<Bool> {
-        isLoggedInSubject.dispose()
-        isLoggedInSubject = BehaviorSubject<Bool>(value: false)
-        return isLoggedInSubject.asObservable().do(onSubscribe: { [unowned self] in
+    public func login(_ scope: [String], callback: String) -> Completable {
+        loginSubject.dispose()
+        loginSubject = PublishSubject<Bool>()
+        return loginSubject
+        .take(1)
+        .asSingle()
+        .asCompletable()
+        .do(onError: { (error) in
+            print("OnError")
+            print(error)
+            
+        }, onCompleted: {
+            print("onCompleted")
+            
+        }, onSubscribed: {
+            print("onSubscribed")
+            
+        })
+        .do(onSubscribe: { [unowned self] in
+            
+            print("OnSubscribe")
+            
             self.logout()
             self.openLoginPage(scope, callback: callback)
         })
@@ -74,7 +97,7 @@ public class EtsySwift {
             .subscribe(onSuccess: { (url) in
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
             }, onError: { [unowned self] (error) in
-                self.isLoggedInSubject.onError(error)
+                self.login(error: error)
             }).disposed(by: disposeBag)
     }
     
@@ -105,10 +128,20 @@ public class EtsySwift {
             .asSingle()
             .subscribe(onSuccess: { [unowned self] response in
                 self.setAuthData(self.parseText(response))
-                self.isLoggedInSubject.onNext(true)
-                }, onError: { (error) in
-                    self.isLoggedInSubject.onError(error)
+                self.loginSucceeded()
+            }, onError: { [unowned self] (error) in
+                self.login(error: error)
             }).disposed(by: disposeBag)
+    }
+    
+    func login(error: Error) {
+        self.isLoggedInSubject.onError(error)
+        self.loginSubject.onError(error)
+    }
+    
+    func loginSucceeded() {
+        self.loginSubject.onNext(true)
+        self.isLoggedInSubject.onNext(true)
     }
     
     // MARK: - Make authorized requests
@@ -121,8 +154,6 @@ public class EtsySwift {
         if let requestParams = parameters {
             params.merge(other: requestParams)
         }
-        
-        print(params)
         
         return request(method: resource.method,
                        url: EtsySwift.apiBaseUrl + resource.url,
@@ -143,6 +174,7 @@ public class EtsySwift {
     public func logout() {
         self.oAuthTokenSecret = nil
         self.oAuthToken = nil
+        self.isLoggedInSubject.onNext(false)
     }
     
     // MARK: - Header

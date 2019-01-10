@@ -11,6 +11,14 @@ import RxAlamofire
 import Alamofire
 import RxSwift
 
+class API {
+    static let shared = API()
+    let etsy: EtsySwift
+    init() {
+        etsy = EtsySwift(consumerKey: "***REMOVED***", consumerSecret: "***REMOVED***")
+    }
+}
+
 class ViewController: UIViewController {
     @IBOutlet private weak var statusLabel: UILabel!
     @IBOutlet private weak var loginBtn: UIButton!
@@ -20,7 +28,14 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        updateLayout(false)
+        
+        API.shared.etsy.isLoggedInObservable
+        .do(onSubscribe: { [unowned self] in
+            self.updateLayout(false)
+        })
+        .subscribe(onNext: { [unowned self] isLoggedIn in
+            self.updateLayout(isLoggedIn)
+        }).disposed(by: disposeBag)
     }
     
     private func updateLayout(_ isLoggedIn: Bool) {
@@ -30,11 +45,9 @@ class ViewController: UIViewController {
     }
     
     private func performLogin() {
-        EtsySwift.shared.set(consumerKey: "----------------------------------------",
-                             consumerSecret: "--------")
-        EtsySwift.shared.login(["email_r"], callback: "etsyintegration://oauth-callback")
-            .subscribe(onNext: { [unowned self] isLoggedIn in
-                self.updateLayout(isLoggedIn)
+        API.shared.etsy.login(["email_r"], callback: "etsyintegration://oauth-callback")
+            .subscribe(onCompleted: {
+                print("Completed login")
             }, onError: { (error) in
                 self.onError(error)
             }).disposed(by: disposeBag)
@@ -45,7 +58,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func requestShopBtnTapped(_ sender: Any) {
-        EtsySwift.shared
+        API.shared.etsy
             .request(.shops("__SELF__"))
             .decodedAs(EtsyResponse<EtsyShop>.self)
             .subscribe(onNext: { [unowned self] response in

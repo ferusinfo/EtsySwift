@@ -42,7 +42,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ application: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any]) -> Bool {
-        EtsySwift.shared.callbackCalled(url: url)
+        API.shared.etsy.callbackCalled(url: url)
         return true
     }
 
