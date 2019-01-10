@@ -54,10 +54,10 @@ class EtsySwift {
                           encoding: URLEncoding.default,
                           headers: createOAuthHeader())
             .asSingle()
-            .flatMap({ [unowned self] response -> Single<URL> in
+            .map({ [unowned self] response -> URL in
                 let result = self.parseText(response)
                 self.setAuthData(result)
-                return Single.just(URL(string: result[.loginUrl]!)!)
+                return URL(string: result[.loginUrl]!)!
             })
             .subscribe(onSuccess: { (url) in
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
@@ -104,9 +104,9 @@ class EtsySwift {
         return request(method: resource.method,
                        url: EtsySwift.apiBaseUrl + resource.url,
                        parameters: parameters)
-            .map({ data -> [String: Any] in
-                return data as! [String: Any]
-            })
+                .map({ data -> [String: Any] in
+                    return data as! [String: Any]
+                })
     }
     
     func request(method: HTTPMethod, url: URLConvertible, parameters: [String: Any]? = nil) -> Observable<Any> {
