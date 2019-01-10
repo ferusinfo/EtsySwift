@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "EtsySwift"
-  s.version      = "0.0.1"
+  s.version      = "0.0.2"
   s.summary      = "Small library allowing reactive authorization with Etsy"
   s.homepage     = "https://github.com/ferusinfo/EtsySwift"
   s.license      = "MIT"
@@ -15,5 +15,5 @@ Pod::Spec.new do |s|
   s.source_files  = ["Classes/Etsy/*/*", "Classes/Etsy/*"]
   s.dependency 'Alamofire', '~> 4.7.3'
   s.dependency 'RxAlamofire', '~> 4.2.0'
-  s.dependency 'RxSwift', '~> 4.2.0'
+  s.dependency 'RxSwift', '4.4.0'
 end
