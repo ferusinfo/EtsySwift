@@ -40,8 +40,8 @@ Let me know if you will need any other resources to be added to the library or s
 
 ```swift
 EtsySwift.shared
-            .request(.shops("__SELF__"))
-            .decodedAs(EtsyResponse<EtsyShop>.self)
+		  .request(.shops("__SELF__"))
+		  .decodedAs(EtsyResponse<EtsyShop>.self)
 ```
 
 ## Contributing
