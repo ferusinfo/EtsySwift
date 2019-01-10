@@ -39,9 +39,7 @@ For now, the API only supports one resource (shops), but you can use the `reques
 Let me know if you will need any other resources to be added to the library or submit a pull request.
 
 ```swift
-EtsySwift.shared
-		  .request(.shops("__SELF__"))
-		  .decodedAs(EtsyResponse<EtsyShop>.self)
+EtsySwift.shared.request(.shops("__SELF__")).decodedAs(EtsyResponse<EtsyShop>.self)
 ```
 
 ## Contributing
