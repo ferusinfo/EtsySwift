@@ -8,14 +8,14 @@
 
 import Foundation
 
-class EtsyResponse<T: Decodable>: Decodable {
-    var results: [T]
+open class EtsyResponse<T: Decodable>: Decodable {
+    public var results: [T]
     
     enum CodingKeys: String, CodingKey {
         case results
     }
     
-    required init(from decoder: Decoder) throws {
+    public required init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         
         results = try values.decode([T].self, forKey: .results)

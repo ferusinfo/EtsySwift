@@ -8,16 +8,16 @@
 
 import Foundation
 
-class EtsyShop: Decodable {
-    var name: String
-    var userId: Int
+open class EtsyShop: Decodable {
+    public var name: String
+    public var userId: Int
     
     enum CodingKeys: String, CodingKey {
         case shopName
         case userId
     }
     
-    required init(from decoder: Decoder) throws {
+    public required init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         
         name = try values.decode(String.self, forKey: .shopName)

@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension  Dictionary where Key == String {
+public extension Dictionary where Key == String {
     func decode<T: Decodable>(_ type: T.Type) throws -> T {
         let json = self
         let jsonData = try JSONSerialization.data(withJSONObject: json, options: [])

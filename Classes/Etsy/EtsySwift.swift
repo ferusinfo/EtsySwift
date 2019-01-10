@@ -11,8 +11,7 @@ import RxSwift
 import RxAlamofire
 import Alamofire
 
-class EtsySwift {
-    static let shared = EtsySwift()
+public class EtsySwift {
     static let apiBaseUrl = "https://openapi.etsy.com/v2/"
     private let requestTokenUrl = apiBaseUrl + "oauth/request_token?scope=email_r&oauth_callback="
     private let accessTokenUrl = apiBaseUrl + "oauth/access_token?oauth_verifier="
@@ -23,25 +22,38 @@ class EtsySwift {
         case oAuthToken = "oauth_token"
     }
     
-    let manager = SessionManager.default
-    let disposeBag: DisposeBag = DisposeBag()
+    private let manager = SessionManager.default
+    private let disposeBag: DisposeBag = DisposeBag()
+    
+    public var isLoggedIn: Bool {
+        return oAuthToken != nil && oAuthTokenSecret != nil
+    }
     
     private var consumerKey: String!
     private var consumerSecret: String!
-    private var oAuthTokenSecret: String?
-    private var oAuthToken: String?
-    private var isLoggedIn = BehaviorSubject<Bool>(value: false)
+    public var oAuthTokenSecret: String?
+    public var oAuthToken: String?
+    private var isLoggedInSubject = BehaviorSubject<Bool>(value: false)
     
-    func set(consumerKey: String, consumerSecret: String) {
+    public init(consumerKey: String, consumerSecret: String) {
+        set(consumerKey: consumerKey, consumerSecret: consumerSecret)
+    }
+    
+    public func set(consumerKey: String, consumerSecret: String) {
         self.consumerKey = consumerKey
         self.consumerSecret = consumerSecret
     }
     
+    public func setCredentials(token: String, secret: String) {
+        self.oAuthToken = token
+        self.oAuthTokenSecret = secret
+    }
+    
     //MARK: - Login
-    func login(_ scope: [String], callback: String) -> Observable<Bool> {
-        isLoggedIn.dispose()
-        isLoggedIn = BehaviorSubject<Bool>(value: false)
-        return isLoggedIn.asObservable().do(onSubscribe: { [unowned self] in
+    public func login(_ scope: [String], callback: String) -> Observable<Bool> {
+        isLoggedInSubject.dispose()
+        isLoggedInSubject = BehaviorSubject<Bool>(value: false)
+        return isLoggedInSubject.asObservable().do(onSubscribe: { [unowned self] in
             self.logout()
             self.openLoginPage(scope, callback: callback)
         })
@@ -62,11 +74,11 @@ class EtsySwift {
             .subscribe(onSuccess: { (url) in
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
             }, onError: { [unowned self] (error) in
-                self.isLoggedIn.onError(error)
+                self.isLoggedInSubject.onError(error)
             }).disposed(by: disposeBag)
     }
     
-    func buildLoginURL(_ scope: [String], _ callback: String) -> URL {
+    private func buildLoginURL(_ scope: [String], _ callback: String) -> URL {
         let params: [String: String]  = [
             "scope": scope.joined(separator: "%20"),
             "oauth_callback": callback
@@ -78,13 +90,13 @@ class EtsySwift {
         return components.url!
     }
     
-    func callbackCalled(url: URL) {
+    public func callbackCalled(url: URL) {
         if let queryParameters = url.queryParameters, let verifier = queryParameters["oauth_verifier"] {
             verifyAccessToken(verifier: verifier)
         }
     }
     
-    func verifyAccessToken(verifier: String) {
+    private func verifyAccessToken(verifier: String) {
         return manager.rx.string(.get,
                                  accessTokenUrl + verifier,
                                  parameters: nil,
@@ -93,14 +105,25 @@ class EtsySwift {
             .asSingle()
             .subscribe(onSuccess: { [unowned self] response in
                 self.setAuthData(self.parseText(response))
-                self.isLoggedIn.onNext(true)
+                self.isLoggedInSubject.onNext(true)
                 }, onError: { (error) in
-                    self.isLoggedIn.onError(error)
+                    self.isLoggedInSubject.onError(error)
             }).disposed(by: disposeBag)
     }
     
     // MARK: - Make authorized requests
-    func request(_ resource: EtsyResource, parameters: [String: Any]? = nil) -> Observable<[String: Any]> {
+    public func request(_ resource: EtsyResource, parameters: [String: Any]? = nil) -> Observable<[String: Any]> {
+        
+        var params : [String: Any] = [:]
+        if let resourceParams = resource.parameters {
+            params.merge(other: resourceParams)
+        }
+        if let requestParams = parameters {
+            params.merge(other: requestParams)
+        }
+        
+        print(params)
+        
         return request(method: resource.method,
                        url: EtsySwift.apiBaseUrl + resource.url,
                        parameters: parameters)
@@ -109,7 +132,7 @@ class EtsySwift {
                 })
     }
     
-    func request(method: HTTPMethod, url: URLConvertible, parameters: [String: Any]? = nil) -> Observable<Any> {
+    public func request(method: HTTPMethod, url: URLConvertible, parameters: [String: Any]? = nil) -> Observable<Any> {
         return manager.rx.json(method,
                                url,
                                parameters: parameters,
@@ -117,7 +140,7 @@ class EtsySwift {
                                headers: createOAuthHeader(tokenSecret: oAuthTokenSecret!, accessToken: oAuthToken!))
     }
     
-    private func logout() {
+    public func logout() {
         self.oAuthTokenSecret = nil
         self.oAuthToken = nil
     }
@@ -154,5 +177,13 @@ class EtsySwift {
     private func setAuthData(_ data: [EtsyAuthResponseKeys: String]) {
         self.oAuthToken = data[.oAuthToken]
         self.oAuthTokenSecret = data[.oAuthTokenSecret]
+    }
+}
+
+extension Dictionary {
+    mutating func merge(other:Dictionary) {
+        for (key,value) in other {
+            self.updateValue(value, forKey:key)
+        }
     }
 }

@@ -9,7 +9,7 @@
 import Foundation
 import RxSwift
 
-extension Observable where E == Dictionary<String, Any> {
+public extension Observable where E == Dictionary<String, Any> {
     func decodedAs<R: Decodable>(_ type: R.Type) -> Observable<R> {
         return map { data -> R in
             return try data.decode(R.self)
