@@ -132,28 +132,31 @@ public class EtsySwift {
     
     // MARK: - Make authorized requests
     public func request(_ resource: EtsyResource, parameters: [String: Any]? = nil) -> Observable<[String: Any]> {
-        
-        var params : [String: Any] = [:]
-        if let resourceParams = resource.parameters {
-            params.merge(other: resourceParams)
-        }
-        if let requestParams = parameters {
-            params.merge(other: requestParams)
-        }
-        
-        return request(method: resource.method,
-                       url: EtsySwift.apiBaseUrl + resource.url,
-                       parameters: parameters)
-                .map({ data -> [String: Any] in
-                    return data as! [String: Any]
-                })
+        return Observable.create { emitter in
+                var params : [String: Any] = [:]
+                if let resourceParams = resource.parameters {
+                    params.merge(other: resourceParams)
+                }
+                if let requestParams = parameters {
+                    params.merge(other: requestParams)
+                }
+                emitter.onNext(params)
+                return Disposables.create()
+            }.flatMap({ [unowned self] (params: [String: Any]) -> Observable<Any> in
+                return self.request(method: resource.method,
+                        url: EtsySwift.apiBaseUrl + resource.url,
+                        parameters: params)
+            })
+            .map({ data -> [String: Any] in
+                return data as! [String: Any]
+            })
     }
     
     public func request(method: HTTPMethod, url: URLConvertible, parameters: [String: Any]? = nil) -> Observable<Any> {
         return manager.rx.json(method,
                                url,
                                parameters: parameters,
-                               encoding: JSONEncoding.default,
+                               encoding: URLEncoding.default,
                                headers: createOAuthHeader(tokenSecret: oAuthTokenSecret!, accessToken: oAuthToken!))
     }
     
@@ -196,13 +199,5 @@ public class EtsySwift {
     private func setAuthData(_ data: [EtsyAuthResponseKeys: String]) {
         self.oAuthToken = data[.oAuthToken]
         self.oAuthTokenSecret = data[.oAuthTokenSecret]
-    }
-}
-
-extension Dictionary {
-    mutating func merge(other:Dictionary) {
-        for (key,value) in other {
-            self.updateValue(value, forKey:key)
-        }
     }
 }

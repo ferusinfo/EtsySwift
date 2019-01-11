@@ -13,11 +13,11 @@ import RxAlamofire
 public enum EtsyResource {
     case listShops(limit: Int)
     case shops(_: String)
-    case shopImages(name: String, limit: Int)
+    case shopListingImages(name: String, listingLimit: Int)
     
     var method: HTTPMethod {
         switch self {
-        case .shops(_), .listShops(_), .shopImages(_,_):
+        case .shops(_), .listShops(_), .shopListingImages(_,_):
             return .get
         }
     }
@@ -28,7 +28,7 @@ public enum EtsyResource {
             return "shops/\(shopId)"
         case .listShops(_):
             return "shops/"
-        case .shopImages(let shopId, _):
+        case .shopListingImages(let shopId, _):
             return "shops/\(shopId)/listings/active"
         }
     }
@@ -37,9 +37,9 @@ public enum EtsyResource {
         switch self {
         case .listShops(let limit):
             return ["limit": limit]
-        case .shopImages(_, let limit):
+        case .shopListingImages(_, let limit):
             return ["includes": "Images",
-                    "fields": "listing_id",
+                    "fields": "listing_id,price",
                     "limit": limit]
         default:
             return nil

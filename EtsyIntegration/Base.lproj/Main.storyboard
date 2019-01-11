@@ -19,30 +19,30 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="bottom" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="mfp-tX-6hI">
-                                <rect key="frame" x="129" y="253" width="117" height="161"/>
+                                <rect key="frame" x="107.5" y="253" width="160" height="161"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="STATUS LABEL" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FeT-0Q-GVO">
-                                        <rect key="frame" x="0.0" y="0.0" width="117" height="20.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="160" height="20.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="liP-QO-AZK">
-                                        <rect key="frame" x="0.0" y="40.5" width="117" height="30"/>
+                                        <rect key="frame" x="0.0" y="40.5" width="160" height="30"/>
                                         <state key="normal" title="LOG IN"/>
                                         <connections>
                                             <action selector="onLoginTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="8P3-G2-wWA"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FhI-Ju-Sb5">
-                                        <rect key="frame" x="0.0" y="90.5" width="117" height="30"/>
-                                        <state key="normal" title="Request Shop"/>
+                                        <rect key="frame" x="0.0" y="90.5" width="160" height="30"/>
+                                        <state key="normal" title="Request Listing Images"/>
                                         <connections>
-                                            <action selector="requestShopBtnTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Yx1-Pr-ODE"/>
+                                            <action selector="requestShopImagesBtnTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="3vC-Rd-ZRe"/>
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="---------" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i9A-8X-aDr">
-                                        <rect key="frame" x="0.0" y="140.5" width="117" height="20.5"/>
+                                        <rect key="frame" x="0.0" y="140.5" width="160" height="20.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -50,7 +50,9 @@
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="i9A-8X-aDr" firstAttribute="leading" secondItem="mfp-tX-6hI" secondAttribute="leading" id="5F4-tV-Udf"/>
+                                    <constraint firstItem="FeT-0Q-GVO" firstAttribute="leading" secondItem="mfp-tX-6hI" secondAttribute="leading" id="6KA-0W-auE"/>
                                     <constraint firstItem="FhI-Ju-Sb5" firstAttribute="leading" secondItem="mfp-tX-6hI" secondAttribute="leading" id="UMp-55-rRV"/>
+                                    <constraint firstAttribute="trailing" secondItem="FeT-0Q-GVO" secondAttribute="trailing" id="d5m-wu-z6I"/>
                                     <constraint firstAttribute="trailing" secondItem="liP-QO-AZK" secondAttribute="trailing" id="g7Z-BF-1by"/>
                                     <constraint firstAttribute="trailing" secondItem="FhI-Ju-Sb5" secondAttribute="trailing" id="p5q-c6-tib"/>
                                     <constraint firstItem="liP-QO-AZK" firstAttribute="leading" secondItem="mfp-tX-6hI" secondAttribute="leading" id="t12-ex-kqh"/>

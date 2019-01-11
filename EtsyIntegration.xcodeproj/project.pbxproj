@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A40C6AE721E8A38D00DDD82B /* EtsyImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A40C6AE621E8A38D00DDD82B /* EtsyImage.swift */; };
+		A40C6AE921E8A3A600DDD82B /* EtsyListing.swift in Sources */ = {isa = PBXBuildFile; fileRef = A40C6AE821E8A3A600DDD82B /* EtsyListing.swift */; };
+		A40C6AEB21E8A4FB00DDD82B /* Dictionary+Merge.swift in Sources */ = {isa = PBXBuildFile; fileRef = A40C6AEA21E8A4FB00DDD82B /* Dictionary+Merge.swift */; };
 		A46BAC5621E4D00C00C7E330 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A46BAC5521E4D00C00C7E330 /* AppDelegate.swift */; };
 		A46BAC5821E4D00C00C7E330 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A46BAC5721E4D00C00C7E330 /* ViewController.swift */; };
 		A46BAC5B21E4D00C00C7E330 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A46BAC5921E4D00C00C7E330 /* Main.storyboard */; };
@@ -25,6 +28,9 @@
 /* Begin PBXFileReference section */
 		4B03C475B12DEEA51BCCF7EC /* Pods-EtsyIntegration.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EtsyIntegration.release.xcconfig"; path = "Pods/Target Support Files/Pods-EtsyIntegration/Pods-EtsyIntegration.release.xcconfig"; sourceTree = "<group>"; };
 		5D07F8FDCE192500375FCCC0 /* Pods-EtsyIntegration.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EtsyIntegration.debug.xcconfig"; path = "Pods/Target Support Files/Pods-EtsyIntegration/Pods-EtsyIntegration.debug.xcconfig"; sourceTree = "<group>"; };
+		A40C6AE621E8A38D00DDD82B /* EtsyImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EtsyImage.swift; sourceTree = "<group>"; };
+		A40C6AE821E8A3A600DDD82B /* EtsyListing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EtsyListing.swift; sourceTree = "<group>"; };
+		A40C6AEA21E8A4FB00DDD82B /* Dictionary+Merge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary+Merge.swift"; sourceTree = "<group>"; };
 		A46BAC5221E4D00C00C7E330 /* EtsyIntegration.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EtsyIntegration.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A46BAC5521E4D00C00C7E330 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A46BAC5721E4D00C00C7E330 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -111,6 +117,7 @@
 				A496218221E74A470095CEDF /* URL+QueryParameters.swift */,
 				A496218421E74A620095CEDF /* Observable+Decode.swift */,
 				A496218D21E74AB80095CEDF /* Dictionary+Decode.swift */,
+				A40C6AEA21E8A4FB00DDD82B /* Dictionary+Merge.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -120,6 +127,8 @@
 			children = (
 				A496218921E74A8D0095CEDF /* EtsyShop.swift */,
 				A496218B21E74AA30095CEDF /* EtsyResponse.swift */,
+				A40C6AE621E8A38D00DDD82B /* EtsyImage.swift */,
+				A40C6AE821E8A3A600DDD82B /* EtsyListing.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -263,6 +272,9 @@
 				A496218C21E74AA30095CEDF /* EtsyResponse.swift in Sources */,
 				A46BAC5821E4D00C00C7E330 /* ViewController.swift in Sources */,
 				A46BAC5621E4D00C00C7E330 /* AppDelegate.swift in Sources */,
+				A40C6AE721E8A38D00DDD82B /* EtsyImage.swift in Sources */,
+				A40C6AE921E8A3A600DDD82B /* EtsyListing.swift in Sources */,
+				A40C6AEB21E8A4FB00DDD82B /* Dictionary+Merge.swift in Sources */,
 				A496218321E74A470095CEDF /* URL+QueryParameters.swift in Sources */,
 				A496218021E749F20095CEDF /* EtsyResource.swift in Sources */,
 				A496218E21E74AB80095CEDF /* Dictionary+Decode.swift in Sources */,

@@ -9,11 +9,11 @@
 import Foundation
 
 public extension Dictionary where Key == String {
-    func decode<T: Decodable>(_ type: T.Type) throws -> T {
+    func decode<T: Decodable>(_ type: T.Type, decodingStrategy: JSONDecoder.KeyDecodingStrategy = .convertFromSnakeCase) throws -> T {
         let json = self
         let jsonData = try JSONSerialization.data(withJSONObject: json, options: [])
         let decoder = JSONDecoder()
-        decoder.keyDecodingStrategy = .convertFromSnakeCase
+        decoder.keyDecodingStrategy = decodingStrategy
         return try decoder.decode(T.self, from: jsonData)
     }
 }

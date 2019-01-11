@@ -59,8 +59,8 @@ class ViewController: UIViewController {
         return
             Single.deferred({ () -> Single<EtsyResponse<EtsyShop>> in
                 API.shared.etsy
-                    .request(.shops("__SELF__"))
-                    .decodedAs(EtsyResponse<EtsyShop>.self)
+                    .request(.shops("NorthwindSupply"))
+                    .decodedAs(EtsyResponse<EtsyShop>.self, decodingStrategy: .convertFromSnakeCase)
                     .asSingle()
             })
     }
@@ -69,13 +69,16 @@ class ViewController: UIViewController {
         performLogin()
     }
     
-    @IBAction func requestShopBtnTapped(_ sender: Any) {
-            getShops()
-            .subscribe(onSuccess: { [unowned self] response in
-                self.shopNameLabel.isHidden = false
-                self.shopNameLabel.text = response.results.first?.name
-            }, onError: { [unowned self] error in
-                self.onError(error)
+    @IBAction func requestShopImagesBtnTapped(_ sender: Any) {
+        API.shared.etsy.request(.shopListingImages(name: "NorthwindSupply", listingLimit: 1))
+            .decodedAs(EtsyResponse<EtsyListing>.self)
+            .map({ (response) -> [EtsyImage] in
+                return response.results.flatMap({$0.images})
+            })
+            .subscribe(onNext: { [unowned self] (images) in
+                self.shopNameLabel.text = String(images.count)
+            }, onError: { (error) in
+                print(error)
             }).disposed(by: disposeBag)
     }
     
