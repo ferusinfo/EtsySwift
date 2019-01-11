@@ -15,7 +15,7 @@ class API {
     static let shared = API()
     let etsy: EtsySwift
     init() {
-        etsy = EtsySwift(consumerKey: "-----", consumerSecret: "------")
+        etsy = EtsySwift(consumerKey: "--------", consumerSecret: "---------")
     }
 }
 

@@ -63,13 +63,7 @@ public class EtsySwift {
         .take(1)
         .asSingle()
         .asCompletable()
-        .do(onCompleted: {
-            print("Stream completed")
-        })
         .do(onSubscribe: { [unowned self] in
-            
-            print("OnSubscribe")
-            
             self.logout()
             self.openLoginPage(scope, callback: callback)
         })
@@ -96,13 +90,12 @@ public class EtsySwift {
     
     private func buildLoginURL(_ scope: [String], _ callback: String) -> URL {
         let params: [String: String]  = [
-            "scope": scope.joined(separator: "%20"),
+            "scope": scope.joined(separator: " "),
             "oauth_callback": callback
         ]
         
         var components = URLComponents(string: requestTokenUrl)!
         components.queryItems = params.map { element in URLQueryItem(name: element.key, value: element.value) }
-        
         return components.url!
     }
     
@@ -184,6 +177,7 @@ public class EtsySwift {
         if let accessToken = accessToken {
             params["oauth_token"] = accessToken
         }
+
         return ["Authorization" : "OAuth \(params.map{ "\($0)=\"\($1)\"" }.joined(separator: ","))"]
     }
     
