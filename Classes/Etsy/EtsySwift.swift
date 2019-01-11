@@ -59,19 +59,12 @@ public class EtsySwift {
         loginSubject.dispose()
         loginSubject = PublishSubject<Bool>()
         return loginSubject
+        .asObservable()
         .take(1)
         .asSingle()
         .asCompletable()
-        .do(onError: { (error) in
-            print("OnError")
-            print(error)
-            
-        }, onCompleted: {
-            print("onCompleted")
-            
-        }, onSubscribed: {
-            print("onSubscribed")
-            
+        .do(onCompleted: {
+            print("Stream completed")
         })
         .do(onSubscribe: { [unowned self] in
             

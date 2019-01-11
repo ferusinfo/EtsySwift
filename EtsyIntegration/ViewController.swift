@@ -15,7 +15,7 @@ class API {
     static let shared = API()
     let etsy: EtsySwift
     init() {
-        etsy = EtsySwift(consumerKey: "***REMOVED***", consumerSecret: "***REMOVED***")
+        etsy = EtsySwift(consumerKey: "-----", consumerSecret: "------")
     }
 }
 
@@ -46,11 +46,23 @@ class ViewController: UIViewController {
     
     private func performLogin() {
         API.shared.etsy.login(["email_r"], callback: "etsyintegration://oauth-callback")
-            .subscribe(onCompleted: {
-                print("Completed login")
-            }, onError: { (error) in
-                self.onError(error)
+            .andThen(getShops())
+            .subscribe(onSuccess: { [unowned self] response in
+                self.shopNameLabel.isHidden = false
+                self.shopNameLabel.text = response.results.first?.name
+                }, onError: { [unowned self] error in
+                    self.onError(error)
             }).disposed(by: disposeBag)
+    }
+    
+    func getShops() -> Single<EtsyResponse<EtsyShop>> {
+        return
+            Single.deferred({ () -> Single<EtsyResponse<EtsyShop>> in
+                API.shared.etsy
+                    .request(.shops("__SELF__"))
+                    .decodedAs(EtsyResponse<EtsyShop>.self)
+                    .asSingle()
+            })
     }
 
     @IBAction func onLoginTapped(_ sender: Any) {
@@ -58,10 +70,8 @@ class ViewController: UIViewController {
     }
     
     @IBAction func requestShopBtnTapped(_ sender: Any) {
-        API.shared.etsy
-            .request(.shops("__SELF__"))
-            .decodedAs(EtsyResponse<EtsyShop>.self)
-            .subscribe(onNext: { [unowned self] response in
+            getShops()
+            .subscribe(onSuccess: { [unowned self] response in
                 self.shopNameLabel.isHidden = false
                 self.shopNameLabel.text = response.results.first?.name
             }, onError: { [unowned self] error in
