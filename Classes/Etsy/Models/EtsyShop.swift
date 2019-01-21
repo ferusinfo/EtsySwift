@@ -11,10 +11,12 @@ import Foundation
 open class EtsyShop: Decodable {
     public var name: String
     public var userId: Int
+    public var iconUrl: String
     
     enum CodingKeys: String, CodingKey {
-        case shopName
-        case userId
+        case shopName = "shop_name"
+        case userId = "user_id"
+        case iconUrlFullxfull = "icon_url_fullxfull"
     }
     
     public required init(from decoder: Decoder) throws {
@@ -22,5 +24,6 @@ open class EtsyShop: Decodable {
         
         name = try values.decode(String.self, forKey: .shopName)
         userId = try values.decode(Int.self, forKey: .userId)
+        iconUrl = try values.decode(String.self, forKey: .iconUrlFullxfull)
     }
 }

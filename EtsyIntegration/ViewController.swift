@@ -15,7 +15,7 @@ class API {
     static let shared = API()
     let etsy: EtsySwift
     init() {
-        etsy = EtsySwift(consumerKey: "--------", consumerSecret: "---------")
+        etsy = EtsySwift(consumerKey: "-------------", consumerSecret: "-------------")
     }
 }
 
@@ -48,9 +48,12 @@ class ViewController: UIViewController {
         API.shared.etsy.login(["email_r"], callback: "etsyintegration://oauth-callback")
             .andThen(getShops())
             .subscribe(onSuccess: { [unowned self] response in
+                
                 self.shopNameLabel.isHidden = false
                 self.shopNameLabel.text = response.results.first?.name
+                
                 }, onError: { [unowned self] error in
+                    
                     self.onError(error)
             }).disposed(by: disposeBag)
     }
@@ -60,7 +63,8 @@ class ViewController: UIViewController {
             Single.deferred({ () -> Single<EtsyResponse<EtsyShop>> in
                 API.shared.etsy
                     .request(.shops("NorthwindSupply"))
-                    .decodedAs(EtsyResponse<EtsyShop>.self, decodingStrategy: .convertFromSnakeCase)
+                    .decodedAs(EtsyResponse<EtsyShop>.self)
+                    .take(1)
                     .asSingle()
             })
     }
