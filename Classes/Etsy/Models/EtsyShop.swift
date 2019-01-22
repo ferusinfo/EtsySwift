@@ -11,7 +11,7 @@ import Foundation
 open class EtsyShop: Decodable {
     public var name: String
     public var userId: Int
-    public var iconUrl: String
+    public var iconUrl: String?
     
     enum CodingKeys: String, CodingKey {
         case shopName = "shop_name"
@@ -24,6 +24,6 @@ open class EtsyShop: Decodable {
         
         name = try values.decode(String.self, forKey: .shopName)
         userId = try values.decode(Int.self, forKey: .userId)
-        iconUrl = try values.decode(String.self, forKey: .iconUrlFullxfull)
+        iconUrl = try? values.decode(String.self, forKey: .iconUrlFullxfull)
     }
 }
