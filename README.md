@@ -42,7 +42,7 @@ func application(_ application: UIApplication, open url: URL, options: [UIApplic
 ## Making Requests
 After you authorize with the login method, you can easilly call any method from Etsy API that you have access to. I've also added a handy Rx extension for decoding the response from the API.
 
-For now, the API only supports one resource (shops), but you can use the `request(method:url:)` method to request any resource you might need.
+For now, the API only supports resources that I needed to use for my project (such as shops listing, products listing and getting images for products), but you can use the `request(method:url:)` method to request any resource you might need.
 Let me know if you will need any other resources to be added to the library or submit a pull request.
 
 ```swift
