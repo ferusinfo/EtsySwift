@@ -74,7 +74,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func requestShopImagesBtnTapped(_ sender: Any) {
-        API.shared.etsy.request(.shopListingImages(name: "NorthwindSupply", listingLimit: 1))
+        API.shared.etsy.request(.shopListingImages(name: "NorthwindSupply", listingLimit: 25, keywords: nil))
             .decodedAs(EtsyResponse<EtsyListing>.self)
             .map({ (response) -> [EtsyImage] in
                 return response.results.flatMap({$0.images})
