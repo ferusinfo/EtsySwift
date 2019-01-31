@@ -13,11 +13,11 @@ import RxAlamofire
 public enum EtsyResource {
     case listShops(limit: Int)
     case shops(_: String)
-    case shopListingImages(name: String, listingLimit: Int, keywords: String?)
+    case shopListings(shopName: String, listingLimit: Int, keywords: String?, includeImages: Bool)
     
     var method: HTTPMethod {
         switch self {
-        case .shops(_), .listShops(_), .shopListingImages(_,_,_):
+        case .shops(_), .listShops(_), .shopListings(_,_,_,_):
             return .get
         }
     }
@@ -28,7 +28,7 @@ public enum EtsyResource {
             return "shops/\(shopId)"
         case .listShops(_):
             return "shops/"
-        case .shopListingImages(let shopId, _, _):
+        case .shopListings(let shopId, _, _, _):
             return "shops/\(shopId)/listings/active"
         }
     }
@@ -37,13 +37,17 @@ public enum EtsyResource {
         switch self {
         case .listShops(let limit):
             return ["limit": limit]
-        case .shopListingImages(_, let limit, let keywords):
-            var params : [String: Any] =  ["includes": "Images",
+        case .shopListings(_, let limit, let keywords, let includeImages):
+            var params : [String: Any] = [
                     "fields": "listing_id,price,title",
                     "limit": limit]
             if let keywords = keywords {
                 params["keywords"] = keywords
             }
+            if includeImages {
+                params["includes"] = "Images"
+            }
+            
             return params
         default:
             return nil
