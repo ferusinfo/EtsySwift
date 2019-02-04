@@ -10,6 +10,7 @@ import Foundation
 
 open class EtsyImage: Decodable {
     public let imageId: Int
+    public var title: String?
     public let red: Int
     public let green: Int
     public let blue: Int
