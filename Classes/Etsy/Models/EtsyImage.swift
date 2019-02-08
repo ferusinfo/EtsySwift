@@ -23,7 +23,7 @@ open class EtsyImage: Decodable {
     public let width: Int
     public let height: Int
 
-    var aspectRatio: CGFloat {
+    public var aspectRatio: CGFloat {
         return 1.0/(CGFloat(width)/CGFloat(height))
     }
     
