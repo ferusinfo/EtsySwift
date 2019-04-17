@@ -7,13 +7,14 @@
 //
 
 import Foundation
+import UIKit
 
 open class EtsyImage: Decodable {
     public let imageId: Int
     public var title: String?
-    public let red: Int
-    public let green: Int
-    public let blue: Int
+    public let red: Int?
+    public let green: Int?
+    public let blue: Int?
     public let rank: Int
     
     public let url75x: String
@@ -44,9 +45,9 @@ open class EtsyImage: Decodable {
     public required init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         imageId = try values.decode(Int.self, forKey: .listingImageId)
-        red = try values.decode(Int.self, forKey: .red)
-        green = try values.decode(Int.self, forKey: .green)
-        blue = try values.decode(Int.self, forKey: .blue)
+        red = try values.decodeIfPresent(Int.self, forKey: .red)
+        green = try values.decodeIfPresent(Int.self, forKey: .green)
+        blue = try values.decodeIfPresent(Int.self, forKey: .blue)
         rank = try values.decode(Int.self, forKey: .rank)
         
         url75x = try values.decode(String.self, forKey: .url75x)

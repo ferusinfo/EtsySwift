@@ -13,12 +13,14 @@ open class EtsyShop: Decodable {
     public var userId: Int
     public var iconUrl: String?
     public var shopId: String
+    public var currencyCode: String
     
     enum CodingKeys: String, CodingKey {
         case shopName = "shop_name"
         case userId = "user_id"
         case iconUrlFullxfull = "icon_url_fullxfull"
         case shopId = "shop_id"
+        case currencyCode = "currency_code"
     }
     
     public required init(from decoder: Decoder) throws {
@@ -27,5 +29,6 @@ open class EtsyShop: Decodable {
         name = try values.decode(String.self, forKey: .shopName)
         userId = try values.decode(Int.self, forKey: .userId)
         iconUrl = try? values.decode(String.self, forKey: .iconUrlFullxfull)
+        currencyCode = try values.decode(String.self, forKey: .currencyCode)
     }
 }

@@ -74,10 +74,10 @@ class ViewController: UIViewController {
     }
     
     @IBAction func requestShopImagesBtnTapped(_ sender: Any) {
-        API.shared.etsy.request(.shopListingImages(name: "NorthwindSupply", listingLimit: 25, keywords: nil))
+        API.shared.etsy.request(.shopListings(shopName: "NorthwindSupply", listingLimit: 25, keywords: nil, includeImages: true))
             .decodedAs(EtsyResponse<EtsyListing>.self)
             .map({ (response) -> [EtsyImage] in
-                return response.results.flatMap({$0.images})
+                return response.results.compactMap({$0.images}).reduce([], +)
             })
             .subscribe(onNext: { [unowned self] (images) in
                 self.shopNameLabel.text = String(images.count)
