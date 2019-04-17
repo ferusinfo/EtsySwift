@@ -4,8 +4,7 @@ use_frameworks!
 def beam_pods
   inhibit_all_warnings!
   
-  pod 'RxSwift', '4.2.0'
-  pod 'Kingfisher', '4.8.1'
+  pod 'RxSwift', '4.4.1'
   pod 'Alamofire', '4.7.3'
   pod 'RxAlamofire', '4.2.0'
 end

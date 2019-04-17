@@ -15,5 +15,5 @@ Pod::Spec.new do |s|
   s.source_files  = ["Classes/Etsy/*/*", "Classes/Etsy/*"]
   s.dependency 'Alamofire', '4.7.3'
   s.dependency 'RxAlamofire', '4.2.0'
-  s.dependency 'RxSwift', '4.2.0'
+  s.dependency 'RxSwift', '4.4.1'
 end
