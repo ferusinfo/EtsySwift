@@ -10,7 +10,14 @@ import Foundation
 
 open class EtsyListing: Decodable {
     public let listingId: Int
-    public let price: Double?
+    private let priceString: String?
+    public var price: Double? {
+        if let priceString = priceString {
+            return Double(priceString)
+        }
+        return nil
+    }
+    public let currencyCode: String?
     public let images: [EtsyImage]?
     public let title: String
     
@@ -19,13 +26,15 @@ open class EtsyListing: Decodable {
         case price
         case images = "Images"
         case title
+        case currencyCode = "currency_code"
     }
     
     public required init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         listingId = try values.decode(Int.self, forKey: .listingId)
         images = try? values.decode([EtsyImage].self, forKey: .images)
-        price = try? values.decode(Double.self, forKey: .price)
+        priceString = try values.decodeIfPresent(String.self, forKey: .price)
+        currencyCode = try values.decodeIfPresent(String.self, forKey: .currencyCode)
         title = try values.decode(String.self, forKey: .title)
     }
 }
