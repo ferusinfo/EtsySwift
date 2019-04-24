@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3ED14E8222707B3E00895B6A /* EtsyPagination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED14E8122707B3E00895B6A /* EtsyPagination.swift */; };
 		A40C6AE721E8A38D00DDD82B /* EtsyImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A40C6AE621E8A38D00DDD82B /* EtsyImage.swift */; };
 		A40C6AE921E8A3A600DDD82B /* EtsyListing.swift in Sources */ = {isa = PBXBuildFile; fileRef = A40C6AE821E8A3A600DDD82B /* EtsyListing.swift */; };
 		A40C6AEB21E8A4FB00DDD82B /* Dictionary+Merge.swift in Sources */ = {isa = PBXBuildFile; fileRef = A40C6AEA21E8A4FB00DDD82B /* Dictionary+Merge.swift */; };
@@ -26,6 +27,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3ED14E8122707B3E00895B6A /* EtsyPagination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EtsyPagination.swift; sourceTree = "<group>"; };
 		4B03C475B12DEEA51BCCF7EC /* Pods-EtsyIntegration.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EtsyIntegration.release.xcconfig"; path = "Pods/Target Support Files/Pods-EtsyIntegration/Pods-EtsyIntegration.release.xcconfig"; sourceTree = "<group>"; };
 		5D07F8FDCE192500375FCCC0 /* Pods-EtsyIntegration.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EtsyIntegration.debug.xcconfig"; path = "Pods/Target Support Files/Pods-EtsyIntegration/Pods-EtsyIntegration.debug.xcconfig"; sourceTree = "<group>"; };
 		A40C6AE621E8A38D00DDD82B /* EtsyImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EtsyImage.swift; sourceTree = "<group>"; };
@@ -129,6 +131,7 @@
 				A496218B21E74AA30095CEDF /* EtsyResponse.swift */,
 				A40C6AE621E8A38D00DDD82B /* EtsyImage.swift */,
 				A40C6AE821E8A3A600DDD82B /* EtsyListing.swift */,
+				3ED14E8122707B3E00895B6A /* EtsyPagination.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -280,6 +283,7 @@
 				A496218E21E74AB80095CEDF /* Dictionary+Decode.swift in Sources */,
 				A496217E21E749980095CEDF /* EtsySwift.swift in Sources */,
 				A496218A21E74A8D0095CEDF /* EtsyShop.swift in Sources */,
+				3ED14E8222707B3E00895B6A /* EtsyPagination.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
