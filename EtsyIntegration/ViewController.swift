@@ -15,7 +15,7 @@ class API {
     static let shared = API()
     let etsy: EtsySwift
     init() {
-        etsy = EtsySwift(consumerKey: "-------------", consumerSecret: "-------------")
+        etsy = EtsySwift(consumerKey: "nugbujml2r9gnwq3htk2cm5q", consumerSecret: "cmg0psn3q2")
     }
 }
 
@@ -24,7 +24,17 @@ class ViewController: UIViewController {
     @IBOutlet private weak var loginBtn: UIButton!
     @IBOutlet private weak var requestShopBtn: UIButton!
     @IBOutlet private weak var shopNameLabel: UILabel!
+    @IBOutlet private weak var prevPageButton: UIButton!
+    @IBOutlet private weak var nextPageButton: UIButton!
+    @IBOutlet private weak var countLabel: UILabel!
+    @IBOutlet private weak var effectivePageLabel: UILabel!
+    @IBOutlet private weak var nextPageLabel: UILabel!
+    @IBOutlet private weak var effectiveOffsetLabel: UILabel!
+    @IBOutlet private weak var nextOffsetLabel: UILabel!
+    
     private let disposeBag = DisposeBag()
+    private let listingLimit = 25
+    private var pagination: EtsyPagination?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,6 +52,8 @@ class ViewController: UIViewController {
         self.statusLabel.text = isLoggedIn ? "Logged in sucessfully" : "Logged out"
         self.requestShopBtn.isEnabled = isLoggedIn
         self.shopNameLabel.isHidden = !isLoggedIn
+        self.prevPageButton.isEnabled = false
+        self.nextPageButton.isEnabled = false
     }
     
     private func performLogin() {
@@ -74,15 +86,21 @@ class ViewController: UIViewController {
     }
     
     @IBAction func requestShopImagesBtnTapped(_ sender: Any) {
-        API.shared.etsy.request(.shopListings(shopName: "NorthwindSupply", listingLimit: 25, keywords: nil, includeImages: true))
+        getEtsyImages(offset: 0)
+    }
+    
+    private func getEtsyImages(offset: Int) {
+        API.shared.etsy.request(.shopListings(shopName: "NorthwindSupply", listingLimit: listingLimit, offset: offset, keywords: nil, includeImages: true))
             .decodedAs(EtsyResponse<EtsyListing>.self)
-            .map({ (response) -> [EtsyImage] in
-                return response.results.compactMap({$0.images}).reduce([], +)
+            .map({ (response) -> (images: [EtsyImage], responseCount: Int, pagination: EtsyPagination) in
+                return (response.results.compactMap({$0.images}).reduce([], +), response.count, response.pagination)
             })
-            .subscribe(onNext: { [unowned self] (images) in
-                self.shopNameLabel.text = String(images.count)
-            }, onError: { (error) in
-                print(error)
+            .subscribe(onNext: { [unowned self] (images, count, pagination) in
+                self.shopNameLabel.text = "Images count: " + String(images.count)
+                self.countLabel.text = String(count)
+                self.updatePagination(pagination)
+                }, onError: { (error) in
+                    print(error)
             }).disposed(by: disposeBag)
     }
     
@@ -91,5 +109,25 @@ class ViewController: UIViewController {
         let okAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil)
         alertController.addAction(okAction)
         present(alertController, animated: true, completion: nil)
+    }
+    
+    private func updatePagination(_ pagination: EtsyPagination) {
+        prevPageButton.isEnabled = pagination.hasPrevPage
+        nextPageButton.isEnabled = pagination.hasNextPage
+        effectivePageLabel.text = String(pagination.effectivePage ?? 0)
+        nextPageLabel.text = String(pagination.nextPage ?? 0)
+        effectiveOffsetLabel.text = String(pagination.effectiveOffset ?? 0)
+        nextOffsetLabel.text = String(pagination.nextOffset ?? 0)
+        self.pagination = pagination
+    }
+    
+    @IBAction func prevPageButtonTapped(_ sender: Any) {
+        if let currentOffset = pagination?.effectiveOffset {
+            getEtsyImages(offset: currentOffset - listingLimit)
+        }
+    }
+    
+    @IBAction func nextPageButtonTapped(_ sender: Any) {
+        getEtsyImages(offset: pagination?.nextOffset ?? 0)
     }
 }
