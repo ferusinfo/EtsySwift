@@ -34,9 +34,9 @@ open class EtsyPagination: Decodable {
     
     public required init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
-        effectivePage = try? values.decode(Int.self, forKey: .effectivePage)
-        nextPage = try? values.decode(Int.self, forKey: .nextPage)
-        effectiveOffset = try? values.decode(Int.self, forKey: .effectiveOffset)
-        nextOffset = try? values.decode(Int.self, forKey: .nextOffset)
+        effectivePage = try values.decodeIfPresent(Int.self, forKey: .effectivePage)
+        nextPage = try values.decodeIfPresent(Int.self, forKey: .nextPage)
+        effectiveOffset = try values.decodeIfPresent(Int.self, forKey: .effectiveOffset)
+        nextOffset = try values.decodeIfPresent(Int.self, forKey: .nextOffset)
     }
 }
