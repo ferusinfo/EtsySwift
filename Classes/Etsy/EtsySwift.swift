@@ -29,6 +29,10 @@ public class EtsySwift {
         return oAuthToken != nil && oAuthTokenSecret != nil
     }
     
+    public var isLoggingIn: Bool {
+        return loginAuthToken != nil && loginAuthTokenSecret != nil
+    }
+    
     private var consumerKey: String!
     private var consumerSecret: String!
     // Used in first step login - open login page
@@ -131,6 +135,8 @@ public class EtsySwift {
     }
     
     func loginSucceeded() {
+        self.loginAuthToken = nil
+        self.loginAuthTokenSecret = nil
         self.loginSubject.onNext(true)
         self.isLoggedInSubject.onNext(true)
     }
