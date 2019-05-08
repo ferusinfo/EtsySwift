@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "EtsySwift"
-  s.version      = "0.0.11"
+  s.version      = "0.0.12"
   s.summary      = "Small library allowing reactive authorization with Etsy"
   s.homepage     = "https://github.com/ferusinfo/EtsySwift"
   s.license      = "MIT"

@@ -29,10 +29,19 @@ public class EtsySwift {
         return oAuthToken != nil && oAuthTokenSecret != nil
     }
     
+    public var isLoggingIn: Bool {
+        return loginAuthToken != nil && loginAuthTokenSecret != nil
+    }
+    
     private var consumerKey: String!
     private var consumerSecret: String!
+    // Used in first step login - open login page
+    private var loginAuthToken: String?
+    private var loginAuthTokenSecret: String?
+    // Received after succesful login
     public var oAuthTokenSecret: String?
     public var oAuthToken: String?
+    
     private var loginSubject = PublishSubject<Bool>()
     private var isLoggedInSubject = BehaviorSubject<Bool>(value: false)
     
@@ -78,7 +87,7 @@ public class EtsySwift {
             .asSingle()
             .map({ [unowned self] response -> URL in
                 let result = self.parseText(response)
-                self.setAuthData(result)
+                self.setLoginAuthData(result)
                 return URL(string: result[.loginUrl]!)!
             })
             .subscribe(onSuccess: { (url) in
@@ -110,7 +119,7 @@ public class EtsySwift {
                                  accessTokenUrl + verifier,
                                  parameters: nil,
                                  encoding: URLEncoding.default,
-                                 headers: createOAuthHeader(tokenSecret: oAuthTokenSecret!, accessToken: oAuthToken!))
+                                 headers: createOAuthHeader(tokenSecret: loginAuthTokenSecret!, accessToken: loginAuthToken!))
             .asSingle()
             .subscribe(onSuccess: { [unowned self] response in
                 self.setAuthData(self.parseText(response))
@@ -126,6 +135,8 @@ public class EtsySwift {
     }
     
     func loginSucceeded() {
+        self.loginAuthToken = nil
+        self.loginAuthTokenSecret = nil
         self.loginSubject.onNext(true)
         self.isLoggedInSubject.onNext(true)
     }
@@ -161,6 +172,8 @@ public class EtsySwift {
     }
     
     public func logout() {
+        self.loginAuthToken = nil
+        self.loginAuthTokenSecret = nil
         self.oAuthTokenSecret = nil
         self.oAuthToken = nil
         self.isLoggedInSubject.onNext(false)
@@ -194,6 +207,11 @@ public class EtsySwift {
             }
             return res
         })
+    }
+    
+    private func setLoginAuthData(_ data: [EtsyAuthResponseKeys: String]) {
+        self.loginAuthToken = data[.oAuthToken]
+        self.loginAuthTokenSecret = data[.oAuthTokenSecret]
     }
     
     private func setAuthData(_ data: [EtsyAuthResponseKeys: String]) {
